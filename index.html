@@ -1,31 +1,67 @@
 <!DOCTYPE html>
 <html lang="en-us">
+
 <head>
     <meta charset="utf-8">
-    <title>附錄</title>
+    <title>示意</title>
     <style>
         body {
-            padding: 10px;
+            padding: 24px;
             color: #000000;
+            background-color: #FFFFFF;
+            position: relative;
+            top: 38px;
+        }
+    </style>
+    <style type='text/css'>
+        #Top {
+            position: fixed;
+            top: 0px;
+            font-size: 24px;
             background-color: #FFFFFF;
         }
     </style>
+
 </head>
+
 <body>
-    <div id="p1">
-        <h1>影片1</h1>
-        <br>
-        <video width="853" height="480"
-            src="https://cdn.discordapp.com/attachments/951022756529602641/1099226711649960046/2022-11-07_16-55-14.mp4"
-            controls></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        </div>
-        <div id="p2">
-            <h1>影片2</h1><br>
+    <div id="Top" style="border-width:3px;border-bottom-style:double;padding:5px;z-index:2">
+        <b>前往示意</b>
+        <input autocomplete="off" value="1" type="number" step="1" min="1" id="text" style="width:38px; height:24px;">
+        <button onclick="go()">確認</button>
+        <b>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</b>
+    </div>
+    <div style="font-family:DFKai-sb;">
+        <div id="p1"><br><br>
+            <h1>示意1</h1>
             <video width="853" height="480"
-            src="https://cdn.discordapp.com/attachments/1090080188508942376/1099228072332513334/2023-03-31_22-58-14.mp4"
-            controls></video>
+                src="https://cdn.discordapp.com/attachments/951022756529602641/1099226711649960046/2022-11-07_16-55-14.mp4"
+                controls></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        <div id="p2"><br><br>
+            <h1>示意2</h1>
+            <video width="853" height="480"
+                src="https://cdn.discordapp.com/attachments/1090080188508942376/1099228072332513334/2023-03-31_22-58-14.mp4"
+                controls></video>
+        </div>
     </div>
     </table>
     <p></p>
+    <script>
+        var input = document.getElementById("text");
+        input.addEventListener("keyup", function (event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                var num = document.getElementById("text").value;
+                location.href = `#p` + num
+            }
+        });
+        function go() {
+            var num = document.getElementById("text").value;
+            location.href = `#p` + num
+        }
+
+    </script>
 </body>
+
 </html>
