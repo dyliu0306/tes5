@@ -2,15 +2,16 @@
 <html lang="en-us">
 
 <head>
-    <meta charset="utf-8">
     <title>示意</title>
+    <meta charset="utf-8" name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <style>
         body {
             padding: 24px;
             color: #000000;
             background-color: #FFFFFF;
             position: relative;
-            top: 38px;
+            top: 36px;
         }
     </style>
     <style type='text/css'>
@@ -20,6 +21,26 @@
             font-size: 24px;
             background-color: #FFFFFF;
         }
+
+        #readme {
+            position: fixed;
+            right: 5px;
+            background-color: #FFFFFF;
+            text-align: right
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0;
+        }
+
+        #sz {
+            height: 42.1875vw;
+            width: 75vw;
+            max-width: 853px;
+            max-height: 480px;
+        }
     </style>
 
 </head>
@@ -27,37 +48,61 @@
 <body>
     <div id="Top" style="border-width:3px;border-bottom-style:double;padding:5px;z-index:2">
         <b>前往示意</b>
-        <input autocomplete="off" value="1" type="number" step="1" min="1" id="text" style="width:38px; height:24px;">
+        <input name="t1" autocomplete="off" value="1" type="number" step="1" min="1" id="text"
+            style="width:28px;height:20px;font-size: 12px;">
         <button onclick="go()">確認</button>
         <b>⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</b>
     </div>
     <div style="font-family:DFKai-sb;">
         <div id="p1"><br><br>
             <h1>示意1</h1>
-            <video width="853" height="480"
-                src="https://cdn.discordapp.com/attachments/951022756529602641/1099226711649960046/2022-11-07_16-55-14.mp4"
-                controls></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <iframe id="sz" src="https://www.youtube.com/embed/lqOmjcuF-No" title="【G2R2014】Kreuz / sky_delta【BGA】"
+                frameborder="0"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
         <div id="p2"><br><br>
             <h1>示意2</h1>
-            <video width="853" height="480"
+            <image id="sz"
+                src="https://media.discordapp.net/attachments/951022756529602641/1100044733209919508/image.png"
+                controls></image>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        <div id="p3"><br><br>
+            <h1>示意3</h1>
+            <video id="sz"
                 src="https://cdn.discordapp.com/attachments/1090080188508942376/1099228072332513334/2023-03-31_22-58-14.mp4"
-                controls></video>
+                controls></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
     </div>
     </table>
     <p></p>
     <script>
         var input = document.getElementById("text");
+        var num = parseInt(document.getElementById("text").value);
+        const wl = document.querySelector("div input[name='t1']");
+        wl.onwheel = wo;
+
+        function wo(event) {
+            event.preventDefault();
+            var x1 = parseInt(event.deltaY / -100)
+            console.log(num + x1)
+            num += x1;
+            console.log(num)
+            num = Math.max(1, num);
+            document.getElementById("text").value = num
+        }
+
         input.addEventListener("keyup", function (event) {
             event.preventDefault();
             if (event.keyCode === 13) {
-                var num = document.getElementById("text").value;
+                num = parseInt(document.getElementById("text").value);
                 location.href = `#p` + num
             }
         });
+
         function go() {
-            var num = document.getElementById("text").value;
+            num = parseInt(document.getElementById("text").value);
             location.href = `#p` + num
         }
 
