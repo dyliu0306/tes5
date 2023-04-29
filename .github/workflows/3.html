@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>附錄</title>
+    <meta charset="utf-8" name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <style type='text/css'>
+        #asd {
+            width: 70vw;
+            max-width: 448px;
+        }
+
+        #Top {
+            position: fixed;
+            top: 0px;
+            background-color: #FFFFFF;
+        }
+
+        #s4 {
+            font-size: 12px;
+        }
+
+        #s3 {
+            font-size: 17px;
+        }
+
+        #s2 {
+            font-size: 22px;
+        }
+
+        #s1 {
+            font-size: 27px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+            margin: 0;
+        }
+
+        #vd {
+            height: 33.75vw;
+            width: 60vw;
+            max-width: 448px;
+            max-height: 252px;
+        }
+
+        #pc {
+            height: 33.75vw;
+            width: 60vw;
+            max-width: 448px;
+            max-height: 252px;
+            padding: 5px;
+            float: left;
+        }
+
+        #pcend {
+            height: 33.75vw;
+            width: 60vw;
+            max-width: 448px;
+            max-height: 252px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="Top" style="border-width:3px;border-bottom-style:double;padding:5px;z-index:2">
+        <b id="s2">前往附錄</b>
+        <input name="t1" autocomplete="off" value="1" type="number" step="1" min="1" id="text"
+            style="width:28px;height:20px;font-size: 12px;">
+        <button onclick="go()">確認</button>
+        <b id="s3">⠀(支援滾輪)⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</b>
+    </div>
+    <div style="font-family:DFKai-sb;">
+        <div id="p0"><br><br>
+            <p id="s2">成果演示 (觀看至1:28即可)</p>
+            <video id="vd"
+                src="https://cdn.discordapp.com/attachments/1090080188508942376/1101035380431659049/2023-04-27_14-37-12.mp4"
+                controls></video>
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+        </div>
+        <div id="p1"><br><br>
+            <p id="s2">附錄2：效果演示 (彩色顏色為預設顏色)</p>
+            <video id="vd"
+                src="https://cdn.discordapp.com\attachments\951022756529602641\1100324132983418900\2023-04-25_15-34-59.mp4"
+                autoplay muted loop></video>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        <div id="p2"><br><br>
+            <p id="s2">附錄3：示意圖</p>
+            <video id="vd"
+                src="https://cdn.discordapp.com\attachments\951022756529602641\1100327860591403038\2023-04-25_15-49-45.mp4"
+                autoplay muted
+                loop></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        <div id="p3"><br><br>
+            <p id="s2">附錄4：效果演示</p>
+            <video id="vd"
+                src="https://cdn.discordapp.com\attachments\951022756529602641\1100327860591403038\2023-04-25_15-49-45.mp4"
+                autoplay muted
+                loop></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+    </div>
+    </table>
+    <p></p>
+    <script>
+        var input = document.getElementById("text");
+        var num = parseInt(document.getElementById("text").value);
+        const wl = document.querySelector("div input[name='t1']");
+        wl.onwheel = wo;
+
+        function wo(event) {
+            event.preventDefault();
+            var x1 = parseInt(event.deltaY / -100)
+            console.log(num + x1)
+            num += x1;
+            console.log(num)
+            num = Math.max(1, num);
+            document.getElementById("text").value = num
+        }
+
+        input.addEventListener("keyup", function (event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                num = parseInt(document.getElementById("text").value);
+                location.href = `#p` + num
+            }
+        });
+
+        function go() {
+            num = parseInt(document.getElementById("text").value);
+            location.href = `#p` + num
+        }
+
+    </script>
+</body>
+
+</html>
