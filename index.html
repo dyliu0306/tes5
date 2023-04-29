@@ -5,16 +5,76 @@
     <title>附錄</title>
     <meta charset="utf-8" name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <style>
-        body {
-            padding: 24px;
-            color: #000000;
-            background-color: #FFFFFF;
-            position: relative;
-            top: 36px;
+    <script type="text/javascript">
+        /**
+         * Called by the demo.html frames loaded per theme to size the iframes
+         * properly and to allow them to tile the page nicely.
+         */
+        function adjustChildIframeSize(themeName, width, height) {
+            if (typeof console !== 'undefined' && console.log) {
+                try {
+                    console.log('adjusting ' + themeName + ' to ' + width + 'x' + height);
+                } catch (ex) {
+                    // Don't bother logging log failure.
+                }
+            }
+            var iframe = document.getElementById(themeName);
+            iframe.style.height = (+height + 16) + 'px';
+            var container = iframe.parentNode;
+            container.style.width = (+width + 16) + 'px';
+            container.style.display = 'inline-block';
         }
-    </style>
+
+        /**
+         * Create an iframe to showcase theme.
+         * We pass the theme name to the iframe via its URI query, and it loads
+         * prettify and the theme CSS, and calls back to this page to resize iframe.
+         */
+        function appendThemeIFrame(theme) {
+            // title
+            var link = document.createElement('a');
+            link.href = 'https://github.com/google/code-prettify/blob/master/' +
+                (theme.name === 'default' ? 'src/prettify.css' :
+                    ('styles/' + encodeURIComponent(theme.name) + '.css'));
+            link.appendChild(document.createTextNode(
+                theme.name.replace(/\b[a-z]/g, function (letter) {
+                    // Capitalize first letter of each word
+                    return letter.toUpperCase();
+                })));
+            var header = document.createElement('h2');
+            header.className = 'title';
+            header.appendChild(link);
+
+            // attribution
+            var attribution;
+            if (theme.author) {
+                attribution = document.createElement('span');
+                attribution.className = 'attribution';
+                attribution.innerHTML = 'by <em>' + theme.author + '<\/em>';
+            }
+
+            // iframe
+            var iframe = document.createElement('iframe');
+            iframe.id = theme.name;
+            iframe.name = theme.name;  // theme name retrieved in demo.html
+            iframe.src = 'demo.html';
+            //iframe.src = 'demo.html?' + encodeURIComponent(theme.name);
+
+            // insert into page
+            var container = document.createElement('div');
+            container.className = 'container';
+            container.appendChild(header);
+            if (theme.author) { container.appendChild(attribution); }
+            container.appendChild(iframe);
+            document.body.appendChild(container);
+        }
+    </script>
     <style type='text/css'>
+        #asd {
+            width: 70vw;
+            max-width: 448px;
+        }
+
         #Top {
             position: fixed;
             top: 0px;
@@ -44,15 +104,15 @@
         }
 
         #vd {
-            height: 42.1875vw;
-            width: 75vw;
-            max-width: 672px;
-            max-height: 378px;
+            height: 33.75vw;
+            width: 60vw;
+            max-width: 448px;
+            max-height: 252px;
         }
 
         #pc {
-            height: 42.1875vw;
-            width: 75vw;
+            height: 33.75vw;
+            width: 60vw;
             max-width: 448px;
             max-height: 252px;
             padding: 5px;
@@ -60,14 +120,13 @@
         }
 
         #pcend {
-            height: 42.1875vw;
-            width: 75vw;
+            height: 33.75vw;
+            width: 60vw;
             max-width: 448px;
             max-height: 252px;
             padding: 5px;
         }
     </style>
-
 </head>
 
 <body>
@@ -76,27 +135,38 @@
         <input name="t1" autocomplete="off" value="1" type="number" step="1" min="1" id="text"
             style="width:28px;height:20px;font-size: 12px;">
         <button onclick="go()">確認</button>
-        <b id="s3">⠀(支援滾輪)⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</b>
+        <b id="s3">⠀(支援滾輪)⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</b>
     </div>
     <div style="font-family:DFKai-sb;">
-        <div id="p1"><br><br>
-            <p id="s2">附錄1：Kreuz樂曲預覽</p>
-            <iframe id="vd" src="https://www.youtube.com/embed/lqOmjcuF-No" title="【G2R2014】Kreuz / sky_delta【BGA】"
-                frameborder="0"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <div id="p0"><br><br>
+            <p id="s2">成果演示 (觀看至1:28即可)</p>
+            <video id="vd"
+                src="https://cdn.discordapp.com/attachments/1090080188508942376/1101035380431659049/2023-04-27_14-37-12.mp4"
+                controls></video>
+
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
         </div>
-        <div id="p2"><br><br>
+        <div id="p1"><br><br>
             <p id="s2">附錄2：效果演示 (彩色顏色為預設顏色)</p>
             <video id="vd"
                 src="https://cdn.discordapp.com\attachments\951022756529602641\1100324132983418900\2023-04-25_15-34-59.mp4"
-                controls></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                autoplay muted loop></video>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
-        <div id="p3"><br><br>
-            <p id="s2">附錄3：效果演示</p>
+        <div id="p2"><br><br>
+            <p id="s2">附錄3：示意圖</p>
             <video id="vd"
                 src="https://cdn.discordapp.com\attachments\951022756529602641\1100327860591403038\2023-04-25_15-49-45.mp4"
-                controls></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                autoplay muted
+                loop></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        </div>
+        <div id="p3"><br><br>
+            <p id="s2">附錄4：效果演示</p>
+            <video id="vd"
+                src="https://cdn.discordapp.com\attachments\951022756529602641\1100327860591403038\2023-04-25_15-49-45.mp4"
+                autoplay muted
+                loop></video><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
     </div>
     </table>
