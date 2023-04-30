@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <title>Our superheroes</title>
+    <style>
+        body {
+            padding: 10px;
+            color: #FCFCFC;
+            background-color: #272727;
+        }
+        input,
+        textarea {
+            background-color: #272727;
+        }
+        .textBox {
+            width: 100%;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <b>storyboard: </b>
+        <textarea class="textBox" id="text1"></textarea>
+        <button onclick="download()">有引數</button>
+        <button onclick="down()">無引數</button>
+    </div>
+    <p></p>
+    <script>
+        function down() {
+            var json1 = document.getElementById("text1").value;
+            var member = JSON.parse(json1);
+            var st = new Array(member.chartBackup.page_list.length);   //start tick
+            var et = new Array(member.chartBackup.page_list.length);   //end tick
+            var drc = new Array(member.chartBackup.page_list.length);  //scan line direction
+            var arg0 = new Array(member.chartBackup.page_list.length);   //arguments 1
+            var arg1 = new Array(member.chartBackup.page_list.length);   //arguments 2
+            var stp = new Array(member.chartBackup.page_list.length);   //arg to noteY
+            var edp = new Array(member.chartBackup.page_list.length);   //arg to noteY
+
+            var r1 = 0;
+            var r2 = 0;
+            var r3 = 0;
+            var nid2 = new Array(member.note_controllers.length);
+
+            var nid = new Array(member.chartBackup.note_list.length);   //id
+            var ntk = new Array(member.chartBackup.note_list.length);   //tick
+            var nht = new Array(member.chartBackup.note_list.length);   //hold_tick
+            var nhs = new Array(member.chartBackup.note_list.length);   //has_sibling
+            var nif = new Array(member.chartBackup.note_list.length);   //is_forward
+            var nxd = new Array(member.chartBackup.note_list.length);   //next_id
+            var ntp = new Array(member.chartBackup.note_list.length);   //type
+            var npg = new Array(member.chartBackup.note_list.length);   //page_index
+            var nx = new Array(member.chartBackup.note_list.length);   //x
+            var ny = new Array(member.chartBackup.note_list.length);   //y      
+            var drg = new Array(member.chartBackup.note_list.length);   //drag list
+            var drh = new Array(member.chartBackup.note_list.length);   //drag list (drag head)
+
+
+
+            for (let page = 0; page < member.chartBackup.page_list.length; page++) {
+                st[page] = member.chartBackup.page_list[page].start_tick;
+                et[page] = member.chartBackup.page_list[page].end_tick;
+                drc[page] = member.chartBackup.page_list[page].scan_line_direction;
+                arg0[page] = 1
+                arg1[page] = 0
+            }
+
+            for (let index = 0; index < member.chartBackup.page_list.length; index++) {
+                if (drc[index] > 0) {
+                    stp[index] = 0.5 * (arg1[index] - arg0[index] + 1);
+                    edp[index] = 0.5 * (arg1[index] + arg0[index] + 1);
+                }
+                else if (drc[index] < 0) {
+                    stp[index] = 0.5 * (arg1[index] + arg0[index] + 1);
+                    edp[index] = 0.5 * (arg1[index] - arg0[index] + 1);
+                }
+
+            }
+
+            for (let page = 0, x1 = (-1); page < member.chartBackup.note_list.length; page++) {
+                nid[page] = member.chartBackup.note_list[page].id;
+                ntk[page] = member.chartBackup.note_list[page].tick;
+                nht[page] = member.chartBackup.note_list[page].hold_tick;
+                nhs[page] = member.chartBackup.note_list[page].has_sibling;
+                nif[page] = member.chartBackup.note_list[page].is_forward;
+                nxd[page] = member.chartBackup.note_list[page].next_id;
+                ntp[page] = member.chartBackup.note_list[page].type;
+                npg[page] = member.chartBackup.note_list[page].page_index;
+                nx[page] = member.chartBackup.note_list[page].x;
+                r1 = npg[page];
+                if (nif[page] == true) {
+                    npg[page] -= 1
+                }
+                ny[page] = ((ntk[page] - st[r1]) * (edp[r1] - stp[r1]) / (et[r1] - st[r1])) + stp[r1];
+                if (ny[page] < 0) {
+                    ny[page] = 0;
+                }
+                else if (ny[page] > 1) {
+                    ny[page] = 1;
+                }
+                //write in note's Y of all note 
+            }
+
+            var w1 = 0;
+            var w2 = 1;
+            var w3 = 0;
+            var n1 = 0;
+            var d1 = 0;
+
+            for (let page = 0; page < member.chartBackup.note_list.length; page++) {
+
+                if (ntp[page] == 3 || ntp[page] == 6) {
+                    drh[w1] = nid[page]
+                    drg[page] = w1
+                    w3 = page
+                    while (w2 > 0) {
+                        n1 = nxd[w3]
+                        drg[n1] = w1
+                        w3 = n1
+                        if (nxd[w3] == -1) {
+                            w2 = -1
+                        }
+                    }
+                    w1++
+                    w2 = 1
+
+                }
+
+
+            }
+
+            //find all has_sibling note
+            var line = document.querySelector('p');
+            var y1 = 0;
+            var y2 = 0;
+            var t1 = 0;
+            var t2 = 0;
+            var t3 = 0;
+            var t4 = 0;
+            var t5 = 0;
+            var t6 = 0;
+            var t7 = 0;
+            var t8 = new Array(member.chartBackup.note_list.length);
+            var t8a = 0;
+            var t9 = new Array(member.chartBackup.note_list.length);
+            var t9a = 0;
+
+            var drgt2 = new Array(member.chartBackup.note_list.length);
+
+            for (let index = 0; index < member.chartBackup.note_list.length; index++) {
+                t1 = npg[index];
+                y1 = ny[index];
+                t4 = nid[index];
+                t2 = (1.5) * drc[t1] + y1;
+                if (ntp[index] == 3 || ntp[index] == 6) {
+                    drgt2[index] = t2
+                }
+                if (ntp[index] == 4 || ntp[index] == 7) {
+                    t5 = drg[index]
+                    t4 = drh[t5]
+                    t2 = drgt2[t4]
+                }
+                y1 = y1.toFixed(3);
+                line.innerHTML += `{
+            "note": `+ nid[index] + `,
+            "time": "intro:`+ t4 + `:-0.2",
+            "override_y": true,
+            "easing": "easeOutQuint",
+            "y": "noteY:` + parseFloat(t2) + `",
+            "states":[
+            {
+                "time": "start:` + t4 + `:-0.4",
+                "y": "noteY:` + parseFloat(y1) + `"
+            }
+          ]
+        },` ;
+            }
+
+        }
+        function download() {
+            var json1 = document.getElementById("text1").value;
+            var member = JSON.parse(json1);
+            var st = new Array(member.chartBackup.page_list.length);   //start tick
+            var et = new Array(member.chartBackup.page_list.length);   //end tick
+            var drc = new Array(member.chartBackup.page_list.length);  //scan line direction
+            var arg0 = new Array(member.chartBackup.page_list.length);   //arguments 1
+            var arg1 = new Array(member.chartBackup.page_list.length);   //arguments 2
+            var stp = new Array(member.chartBackup.page_list.length);   //arg to noteY
+            var edp = new Array(member.chartBackup.page_list.length);   //arg to noteY
+
+            var r1 = 0;
+            var r2 = 0;
+            var r3 = 0;
+            var nid2 = new Array(member.note_controllers.length);
+
+            var nid = new Array(member.chartBackup.note_list.length);   //id
+            var ntk = new Array(member.chartBackup.note_list.length);   //tick
+            var nht = new Array(member.chartBackup.note_list.length);   //hold_tick
+            var nhs = new Array(member.chartBackup.note_list.length);   //has_sibling
+            var nif = new Array(member.chartBackup.note_list.length);   //is_forward
+            var nxd = new Array(member.chartBackup.note_list.length);   //next_id
+            var ntp = new Array(member.chartBackup.note_list.length);   //type
+            var npg = new Array(member.chartBackup.note_list.length);   //page_index
+            var nx = new Array(member.chartBackup.note_list.length);   //x
+            var ny = new Array(member.chartBackup.note_list.length);   //y      
+            var drg = new Array(member.chartBackup.note_list.length);   //drag list
+            var drh = new Array(member.chartBackup.note_list.length);   //drag list (drag head)
+
+
+
+            for (let page = 0; page < member.chartBackup.page_list.length; page++) {
+                st[page] = member.chartBackup.page_list[page].start_tick;
+                et[page] = member.chartBackup.page_list[page].end_tick;
+                drc[page] = member.chartBackup.page_list[page].scan_line_direction;
+                arg0[page] = member.chartBackup.page_list[page].PositionFunction.Arguments[0];
+                arg1[page] = member.chartBackup.page_list[page].PositionFunction.Arguments[1];
+            }
+
+            for (let index = 0; index < member.chartBackup.page_list.length; index++) {
+                if (drc[index] > 0) {
+                    stp[index] = 0.5 * (arg1[index] - arg0[index] + 1);
+                    edp[index] = 0.5 * (arg1[index] + arg0[index] + 1);
+                }
+                else if (drc[index] < 0) {
+                    stp[index] = 0.5 * (arg1[index] + arg0[index] + 1);
+                    edp[index] = 0.5 * (arg1[index] - arg0[index] + 1);
+                }
+            }
+
+            for (let page = 0, x1 = (-1); page < member.chartBackup.note_list.length; page++) {
+                nid[page] = member.chartBackup.note_list[page].id;
+                ntk[page] = member.chartBackup.note_list[page].tick;
+                nht[page] = member.chartBackup.note_list[page].hold_tick;
+                nhs[page] = member.chartBackup.note_list[page].has_sibling;
+                nif[page] = member.chartBackup.note_list[page].is_forward;
+                nxd[page] = member.chartBackup.note_list[page].next_id;
+                ntp[page] = member.chartBackup.note_list[page].type;
+                npg[page] = member.chartBackup.note_list[page].page_index;
+                nx[page] = member.chartBackup.note_list[page].x;
+                r1 = npg[page];
+                if (nif[page] == true) {
+                    npg[page] -= 1
+                }
+                ny[page] = ((ntk[page] - st[r1]) * (edp[r1] - stp[r1]) / (et[r1] - st[r1])) + stp[r1];
+                if (ny[page] < 0) {
+                    ny[page] = 0;
+                }
+                else if (ny[page] > 1) {
+                    ny[page] = 1;
+                }
+                //write in note's Y of all note 
+            }
+
+            var w1 = 0;
+            var w2 = 1;
+            var w3 = 0;
+            var n1 = 0;
+            var d1 = 0;
+            for (let page = 0; page < member.chartBackup.note_list.length; page++) {
+                if (ntp[page] == 3 || ntp[page] == 6) {
+                    drh[w1] = nid[page]
+                    drg[page] = w1
+                    w3 = page
+                    while (w2 > 0) {
+                        n1 = nxd[w3]
+                        drg[n1] = w1
+                        w3 = n1
+                        if (nxd[w3] == -1) {
+                            w2 = -1
+                        }
+                    }
+                    w1++
+                    w2 = 1
+                }
+            }
+
+            var line = document.querySelector('p');
+            var y1 = 0;
+            var y2 = 0;
+            var t1 = 0;
+            var t2 = 0;
+            var t3 = 0;
+            var t4 = 0;
+            var t5 = 0;
+            var t6 = 0;
+            var t7 = 0;
+            var t8 = new Array(member.chartBackup.note_list.length);
+            var t8a = 0;
+            var t9 = new Array(member.chartBackup.note_list.length);
+            var t9a = 0;
+            var drgt2 = new Array(member.chartBackup.note_list.length);
+            for (let index = 0; index < member.chartBackup.note_list.length; index++) {
+                t1 = npg[index];
+                y1 = ny[index];
+                t4 = nid[index];
+                t2 = (1.5) * drc[t1] + y1;
+                if (ntp[index] == 3 || ntp[index] == 6) {
+                    drgt2[index] = t2
+                }
+                if (ntp[index] == 4 || ntp[index] == 7) {
+                    t5 = drg[index]
+                    t4 = drh[t5]
+                    t2 = drgt2[t4]
+                }
+                y1 = y1.toFixed(3);
+                line.innerHTML += `{
+            "note": `+ nid[index] + `,
+            "time": "intro:`+ t4 + `:-0.2",
+            "override_y": true,
+            "easing": "easeOutQuint",
+            "y": "noteY:` + parseFloat(t2) + `",
+            "states":[
+            {
+                "time": "start:` + t4 + `:-0.4",
+                "y": "noteY:` + parseFloat(y1) + `"
+            }
+          ]
+        },` ;
+            }
+        }
+    </script>
+</body>
+
+</html>
