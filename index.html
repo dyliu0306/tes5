@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="en-us">
+
 <head>
     <meta charset="utf-8">
-    <title>Our superheroes</title>
+    <title>drop效果轉換器</title>
     <style>
         body {
             padding: 10px;
             color: #FCFCFC;
             background-color: #272727;
         }
+
         input,
         textarea {
             background-color: #272727;
         }
+
         .textBox {
             width: 100%;
             height: 200px;
         }
     </style>
 </head>
+
 <body>
     <div>
-        <b>storyboard: </b>
+        <h2>drop 漸入效果轉換器</h2>
+        <b>請貼上<font color="red">storyboard: </font>></b>
         <textarea class="textBox" id="text1"></textarea>
         <button onclick="download()">有引數</button>
-        <button onclick="down()">無引數</button>
+        <button onclick="down()">無引數</button><br>
+        <h4>快速點擊匯出文本3次可全選，將文本貼上note_controllers，並刪掉最後一個逗點</h4>
     </div>
     <p></p>
     <script>
@@ -167,6 +173,7 @@
             "note": `+ nid[index] + `,
             "time": "intro:`+ t4 + `:-0.2",
             "override_y": true,
+            "comment": "storyboard_author=dyliu_`+ nid[index] + `"
             "easing": "easeOutQuint",
             "y": "noteY:` + parseFloat(t2) + `",
             "states":[
@@ -310,6 +317,7 @@
             "time": "intro:`+ t4 + `:-0.2",
             "override_y": true,
             "easing": "easeOutQuint",
+            "comment": "storyboard_author=dyliu_`+ nid[index] + `"
             "y": "noteY:` + parseFloat(t2) + `",
             "states":[
             {
